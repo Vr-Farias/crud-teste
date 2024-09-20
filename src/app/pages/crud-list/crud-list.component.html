@@ -5,35 +5,35 @@
                 <h3>Lista de Profissionais</h3>
             </section>
             <div class="table-container">
-                <table mat-table [dataSource]="dataSource" >
+                <table mat-table [dataSource]="profissionais" >
                     <ng-container matColumnDef="name">
                       <th mat-header-cell *matHeaderCellDef> Nome </th>
-                      <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                      <td mat-cell *matCellDef="let profissional"> {{ profissional.name }} </td>
                     </ng-container>
-                  
+
                     <ng-container matColumnDef="specialty">
                       <th mat-header-cell *matHeaderCellDef> Especialidade </th>
-                      <td mat-cell *matCellDef="let element"> {{element.specialty}} </td>
+                      <td mat-cell *matCellDef="let profissional"> {{ profissional.specialty }} </td>
                     </ng-container>
-                  
+
                     <ng-container matColumnDef="crm">
                       <th mat-header-cell *matHeaderCellDef> CRM </th>
-                      <td mat-cell *matCellDef="let element"> {{element.crm}} </td>
+                      <td mat-cell *matCellDef="let profissional"> {{ profissional.crm }} </td>
                     </ng-container>
-                  
+
                     <ng-container matColumnDef="phone">
                       <th mat-header-cell *matHeaderCellDef> Contato </th>
-                      <td mat-cell *matCellDef="let element"> {{element.phone}} </td>
+                      <td mat-cell *matCellDef="let profissional"> {{ profissional.phone }} </td>
                     </ng-container>
-                
+
                     <ng-container matColumnDef="status">
                         <th mat-header-cell *matHeaderCellDef> Status </th>
-                        <td mat-cell *matCellDef="let element"> {{element.status}} </td>
+                        <td mat-cell *matCellDef="let profissional"> {{ profissional.status }} </td>
                     </ng-container>
-                
+
                     <ng-container matColumnDef="actions">
                         <th mat-header-cell *matHeaderCellDef></th>
-                        <td mat-cell *matCellDef="let element">
+                        <td mat-cell *matCellDef="let profissional">
                         <button mat-icon-button color="secondary" matTooltip="Ver" matTooltipPosition="below">
                             <mat-icon>visibility</mat-icon>
                         </button>
@@ -45,11 +45,11 @@
                         </button>
                         </td>
                     </ng-container>
-                  
+
                     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-                </table>    
-                <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>        
+                </table>
+                <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
             </div>
         </div>
     </section>
@@ -60,4 +60,3 @@
         <mat-icon>add</mat-icon>
     </button>
 </div>
-  
