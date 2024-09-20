@@ -28,7 +28,7 @@ export class CrudListComponent implements AfterViewInit {
     specialty: 'Pediatria',
     crm: '379287',
     phone: '81996762534',
-    status: true,
+    status: false,
     actions: true
   }];
 
