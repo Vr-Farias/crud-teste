@@ -1,3 +1,4 @@
+
 import { Request, Response } from 'express';
 import { ProfessionalModel } from '../models/professionals.model';
 import path from 'path';
@@ -15,18 +16,17 @@ export const createProfessional = async (req: Request, res: Response) => {
 };
 
 
-export const listProfessionals = async (req: Request, res: Response) => {
+export const getAllProfessionals = async (req: Request, res: Response) => {
   try {
 
-    const filePath = path.join(__dirname, '../../assets/professionals.json');
+    // const filePath = path.join(__dirname, '../../assets/professionals.json');
 
 
-    const data = await fs.readFile(filePath, 'utf-8');
-    const professionals = JSON.parse(data); // Converter o JSON para um objeto
+    // const data = await fs.readFile(filePath, 'utf-8');
+    const professionals = await ProfessionalModel.find();
 
     res.status(200).json(professionals);
-  } catch (error: any) {
-    console.error('Erro ao ler o arquivo JSON:', error);
+  } catch (error: any) {;
     res.status(500).json({ error: error.message });
   }
 };

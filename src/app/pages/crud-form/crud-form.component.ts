@@ -3,6 +3,7 @@ import { RouterLink, Router } from '@angular/router';
 import { AppMaterialModule } from '../../shared/app-materials.module';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { RequestHandler } from 'express';
 
 @Component({
   selector: 'app-crud-form',
@@ -50,12 +51,13 @@ export class CrudFormComponent implements OnInit {
     status: 'true',
     daysOfWeek: []
   };
+  static getAllProfessionals: RequestHandler<{}, any, any, ParsedQs, Record<string, any>>;
 
 
   constructor(private http: HttpClient, private router: Router) { } // Injete o HttpClient
 
   ngOnInit(): void {
-    // Você pode adicionar lógica aqui se necessário
+
   }
 
   onSave(): void {

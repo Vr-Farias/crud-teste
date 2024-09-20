@@ -1,37 +1,50 @@
-import fs from 'fs';
-import path from 'path';
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
 
-const dataFilePath = path.join(__dirname, 'data.json');
+dotenv.config();
 
-export interface Professional {
-  name: string;
-  specialty: string;
-  crm: string;
-  contact: string;
-  email: string;
-  status: boolean; // Ativo/Inativo
-}
+const professionalSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  specialty: { type: String, required: true },
+  crm: { type: String, required: true },
+  contact: { type: String, required: true },
+  email: { type: String, required: true },
+  status: { type: Boolean, required: true }
+});
 
-// Função para ler os profissionais do arquivo JSON
-export const readProfessionals = (): Promise<Professional[]> => {
-  return new Promise((resolve, reject) => {
-    fs.readFile(dataFilePath, 'utf8', (err, data) => {
-      if (err) {
-        reject('Erro ao ler o arquivo.');
-      }
-      resolve(JSON.parse(data || '[]'));
-    });
-  });
+const ProfessionalModel = mongoose.model('Professional', professionalSchema);
+
+export const connectDB = async () => {
+  const mongoURI = process.env['MONGO_URI'];
+
+  if (!mongoURI) {
+    console.error("MONGO_URI não está definido no arquivo .env");
+    process.exit(1);
+  }
+
+  try {
+    const conn = await mongoose.connect(mongoURI);
+    console.log(`MongoDB connected: ${conn.connection.host}`);
+  } catch (error: any) {
+    console.error(`Error: ${error.message}`);
+    process.exit(1);
+  }
 };
 
-// Função para escrever profissionais no arquivo JSON
-export const writeProfessionals = (professionals: Professional[]): Promise<void> => {
-  return new Promise((resolve, reject) => {
-    fs.writeFile(dataFilePath, JSON.stringify(professionals, null, 2), (err) => {
-      if (err) {
-        reject('Erro ao salvar o arquivo.');
-      }
-      resolve();
-    });
-  });
+export const readProfessionals = async (): Promise<any[]> => {
+  try {
+    const professionals = await ProfessionalModel.find();
+    return professionals;
+  } catch (error:any) {
+    throw new Error('Erro ao buscar profissionais: ' + error.message);
+  }
+};
+
+export const writeProfessional = async (professionalData: any): Promise<void> => {
+  try {
+    const professional = new ProfessionalModel(professionalData);
+    await professional.save();
+  } catch (error:any) {
+    throw new Error('Erro ao salvar o profissional: ' + error.message);
+  }
 };
