@@ -1,0 +1,18 @@
+[
+  {
+    "name":"Luis Claudio de Arruda",
+      "specialty": "Pediatria",
+      "crm": "379287",
+      "phone": "81996762534",
+      "status": false,
+      "actions": true
+  },
+  {
+    "name":"Andrea Cavalcanti Lima",
+      "specialty": "Obstetrícia",
+      "crm": "938270",
+      "phone": "81987243516",
+      "status": true,
+      "actions": true
+  }
+]

@@ -1,21 +1,23 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { RouterLink, Router } from '@angular/router';
 import { AppMaterialModule } from '../../shared/app-materials.module';
-
+import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-crud-form',
   standalone: true,
   imports: [
     RouterLink,
-    AppMaterialModule
+    AppMaterialModule,
+    HttpClientModule,
+    FormsModule
   ],
   templateUrl: './crud-form.component.html',
-  styleUrl: './crud-form.component.scss'
+  styleUrls: ['./crud-form.component.scss'] // Corrigi de styleUrl para styleUrls
 })
-export class CrudFormComponent implements OnInit{
-
-   daysOfWeek = [
+export class CrudFormComponent implements OnInit {
+  daysOfWeek = [
     { name: 'Segunda-feira' },
     { name: 'Terça-feira' },
     { name: 'Quarta-feira' },
@@ -36,11 +38,37 @@ export class CrudFormComponent implements OnInit{
     { especialidade: 'Alergologia Pediátrica' },
   ];
 
+  professional = {
+    name: '',
+    specialty: '',
+    crm: '',
+    phone: '',
+    email: '',
+    hireDate: null,
+    startTime: '',
+    endTime: '',
+    status: 'true',
+    daysOfWeek: []
+  };
 
+
+  constructor(private http: HttpClient, private router: Router) { } // Injete o HttpClient
 
   ngOnInit(): void {
-    throw new Error('Method not implemented.');
+    // Você pode adicionar lógica aqui se necessário
+  }
+
+  onSave(): void {
+    this.createProfessional(this.professional);
+  }
+
+
+  createProfessional(newProfessional: any) {
+    this.http.post('/api/professionals', newProfessional).subscribe(response => {
+      console.log('Profissional cadastrado com sucesso:', response);
+      this.router.navigate(['/crud-list']);
+        }, error => {
+      console.error('Erro ao cadastrar profissional:', error);
+    });
   }
 }
-
-

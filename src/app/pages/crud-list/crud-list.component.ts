@@ -1,10 +1,10 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
-
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { Profissional } from '../../models/profissionais';
 import { AppMaterialModule } from '../../shared/app-materials.module';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatTableDataSource, MatTableModule} from '@angular/material/table';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { ProfessionalGet } from '../../models/professionals.model';
 
 @Component({
   selector: 'app-crud-list',
@@ -13,26 +13,30 @@ import { MatTableDataSource, MatTableModule} from '@angular/material/table';
     AppMaterialModule,
     RouterLink,
     MatPaginator,
-    MatTableModule
+    MatTableModule,
+    HttpClientModule
   ],
   templateUrl: './crud-list.component.html',
-  styleUrl: './crud-list.component.scss'
+  styleUrls: ['./crud-list.component.scss']
 })
-export class CrudListComponent implements AfterViewInit {
+
+
+export class CrudListComponent implements AfterViewInit, OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   displayedColumns: string[] = ['name', 'specialty', 'crm', 'phone', 'status', 'actions'];
-  dataSource = new MatTableDataSource([]);
+  dataSource = new MatTableDataSource<ProfessionalGet>([]);
 
-  profissionais: Profissional[] = [{
-    name:'Luis Claudio de Arruda',
-    specialty: 'Pediatria',
-    crm: '379287',
-    phone: '81996762534',
-    status: false,
-    actions: true
-  }];
+  constructor(private http: HttpClient) {}
 
-  constructor() {
+  ngOnInit() {
+    this.getProfessionals();
+  }
+
+  getProfessionals() {
+    const apiUrl = '/assets/professionals.json';
+    this.http.get<ProfessionalGet[]>(apiUrl).subscribe(data => {
+      this.dataSource.data = data;
+    });
   }
 
   ngAfterViewInit() {
